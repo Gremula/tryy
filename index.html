@@ -9,10 +9,85 @@
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 </head>
 <body>
-    <div id="content">
-        <!-- Contenuto sarà generato dinamicamente -->
+    <h1>PyScript Routing Example</h1>
+    <div id="app">
+        <!-- Il contenuto dinamico sarà inserito qui -->
     </div>
-    <!-- PyScript -->
-    <py-script src="app.py"></py-script>
+    
+    <py-script>
+        from pyodide.ffi import create_proxy
+        
+        # Simula un'app con rotte
+        routes = {}
+        
+        def route(path):
+            """Registra una funzione per una specifica rotta."""
+            def decorator(func):
+                routes[path] = func
+                return func
+            return decorator
+
+        def render_template(template_func, **kwargs):
+            """Simula il render di un template dinamico."""
+            return template_func(**kwargs)
+
+        # Funzione per navigare
+        def navigate_to(path):
+            if path in routes:
+                content = routes[path]()
+                app_div = document.getElementById("app")
+                app_div.innerHTML = content
+            else:
+                app_div.innerHTML = "<h2>404: Page not found</h2>"
+
+        # Aggiungi listener per i pulsanti di navigazione
+        def setup_navigation():
+            links = document.querySelectorAll("[data-path]")
+            for link in links:
+                link.addEventListener("click", create_proxy(lambda e: navigate_to(link.getAttribute("data-path"))))
+
+        # Rotte definite
+        @route("/")
+        def home():
+            template = """
+            <h2>Home Page</h2>
+            <p>Benvenuto nella pagina iniziale.</p>
+            <button data-path="/list">Vai alla Lista</button>
+            """
+            return template
+
+        @route("/list")
+        def list_view():
+            items = ["Elemento 1", "Elemento 2", "Elemento 3"]
+            content = "<h2>Lista degli Elementi</h2><ul>"
+            for item in items:
+                content += f"<li>{item}</li>"
+            content += "</ul>"
+            content += '<button data-path="/condition">Controlla Condizione</button>'
+            return content
+
+        @route("/condition")
+        def condition_view():
+            x = 10
+            template = "<h2>Pagina di Condizione</h2>"
+            if x > 5:
+                template += f"<p>Il valore di x è maggiore di 5: {x}</p>"
+            else:
+                template += "<p>Il valore di x è minore o uguale a 5.</p>"
+            
+            # Ciclo while come esempio
+            counter = 0
+            template += "<p>Valori:</p><ul>"
+            while counter < 3:
+                template += f"<li>{counter}</li>"
+                counter += 1
+            template += "</ul>"
+            template += '<button data-path="/">Torna alla Home</button>'
+            return template
+
+        # Avvia l'app
+        navigate_to("/")
+        setup_navigation()
+    </py-script>
 </body>
 </html>
