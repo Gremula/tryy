@@ -1,60 +1,18 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyScript Template Rendering</title>
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
     <!-- This script tag bootstraps PyScript -->
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
-  </head>
-  <body>
-    <h1>Tabella Dinamica da JSON</h1>
-    <table id="dynamic_table" border="1">
-      <thead>
-        <tr>
-          <th>Immagine</th>
-          <th>Link</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
-    <py-script>
-      import json
-
-      # JSON che contiene i dati per la tabella
-      json_data = '''
-      [
-          {"image": "https://via.placeholder.com/150", "link": "https://example.com/1"},
-          {"image": "https://via.placeholder.com/150", "link": "https://example.com/2"},
-          {"image": "https://via.placeholder.com/150", "link": "https://example.com/3"}
-      ]
-      '''
-
-      # Funzione che costruisce la tabella dinamicamente
-      def build_table():
-          data = json.loads(json_data)  # Carica i dati JSON
-          table_body = document.getElementById("dynamic_table").getElementsByTagName("tbody")[0]  # Ottieni il corpo della tabella
-
-          # Itera su ogni oggetto nel JSON per costruire le righe della tabella
-          for item in data:
-              row = table_body.insertRow()  # Crea una nuova riga
-
-              # Crea la cella per l'immagine
-              img_cell = row.insertCell()
-              img = document.createElement("img")
-              img.src = item["image"]
-              img.alt = "Immagine"
-              img.width = 150  # Imposta la larghezza
-              img_cell.appendChild(img)
-
-              # Crea la cella per il link
-              link_cell = row.insertCell()
-              link = document.createElement("a")
-              link.href = item["link"]
-              link.innerHTML = "Visita Sito"
-              link_cell.appendChild(link)
-
-      # Chiama la funzione per costruire la tabella
-      build_table()
-
-    </py-script>
-  </body>
+</head>
+<body>
+    <div id="content">
+        <!-- Contenuto sarà generato dinamicamente -->
+    </div>
+    <!-- PyScript -->
+    <py-script src="app.py"></py-script>
+</body>
 </html>
