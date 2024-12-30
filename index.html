@@ -18,6 +18,7 @@
 
     <py-script>
       import json
+      from pyodide.ffi import create_proxy
 
       # JSON che contiene i dati per la tabella
       json_data = '''
@@ -31,7 +32,7 @@
       # Funzione che costruisce la tabella dinamicamente
       def build_table():
           data = json.loads(json_data)  # Carica i dati JSON
-          table_body = document.getElementById("dynamic_table").getElementsByTagName("tbody")[0]  # Ottieni il corpo della tabella
+          table_body = Element("dynamic_table").element.getElementsByTagName("tbody")[0]  # Ottieni il corpo della tabella
 
           # Itera su ogni oggetto nel JSON per costruire le righe della tabella
           for item in data:
@@ -54,6 +55,7 @@
 
       # Chiama la funzione per costruire la tabella
       build_table()
+
     </py-script>
   </body>
 </html>
