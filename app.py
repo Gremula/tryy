@@ -57,4 +57,4 @@ def render_content():
     content_div.innerHTML = rendered_html
 
 # Collega la funzione al caricamento della pagina
-document.addEventListener("DOMContentLoaded", render_content())
+render_content()
