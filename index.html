@@ -18,7 +18,6 @@
 
     <py-script>
       import json
-      from pyscript import Element
 
       # JSON che contiene i dati per la tabella
       json_data = '''
@@ -32,7 +31,7 @@
       # Funzione che costruisce la tabella dinamicamente
       def build_table():
           data = json.loads(json_data)  # Carica i dati JSON
-          table_body = Element("dynamic_table").element.getElementsByTagName("tbody")[0]  # Ottieni il corpo della tabella
+          table_body = document.getElementById("dynamic_table").getElementsByTagName("tbody")[0]  # Ottieni il corpo della tabella
 
           # Itera su ogni oggetto nel JSON per costruire le righe della tabella
           for item in data:
@@ -40,18 +39,18 @@
 
               # Crea la cella per l'immagine
               img_cell = row.insertCell()
-              img = Element("img")
-              img.element.src = item["image"]
-              img.element.alt = "Immagine"
-              img.element.width = 150  # Imposta la larghezza
-              img_cell.element.appendChild(img.element)
+              img = document.createElement("img")
+              img.src = item["image"]
+              img.alt = "Immagine"
+              img.width = 150  # Imposta la larghezza
+              img_cell.appendChild(img)
 
               # Crea la cella per il link
               link_cell = row.insertCell()
-              link = Element("a")
-              link.element.href = item["link"]
-              link.element.innerHTML = "Visita Sito"
-              link_cell.element.appendChild(link.element)
+              link = document.createElement("a")
+              link.href = item["link"]
+              link.innerHTML = "Visita Sito"
+              link_cell.appendChild(link)
 
       # Chiama la funzione per costruire la tabella
       build_table()
