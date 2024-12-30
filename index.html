@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+    <!-- This script tag bootstraps PyScript -->
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+  </head>
+  <body>
+    <h1>Tabella Dinamica da JSON</h1>
+    <table id="dynamic_table" border="1">
+      <thead>
+        <tr>
+          <th>Immagine</th>
+          <th>Link</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <py-script>
+      import json
+
+      # JSON che contiene i dati per la tabella
+      json_data = '''
+      [
+          {"image": "https://via.placeholder.com/150", "link": "https://example.com/1"},
+          {"image": "https://via.placeholder.com/150", "link": "https://example.com/2"},
+          {"image": "https://via.placeholder.com/150", "link": "https://example.com/3"}
+      ]
+      '''
+
+      # Funzione che costruisce la tabella dinamicamente
+      def build_table():
+          data = json.loads(json_data)  # Carica i dati JSON
+          table_body = document.getElementById("dynamic_table").getElementsByTagName("tbody")[0]  # Ottieni il corpo della tabella
+
+          # Itera su ogni oggetto nel JSON per costruire le righe della tabella
+          for item in data:
+              row = table_body.insertRow()  # Crea una nuova riga
+
+              # Crea la cella per l'immagine
+              img_cell = row.insertCell()
+              img = Element("img")
+              img.element.src = item["image"]
+              img.element.alt = "Immagine"
+              img.element.width = 150  # Imposta la larghezza
+              img_cell.element.appendChild(img.element)
+
+              # Crea la cella per il link
+              link_cell = row.insertCell()
+              link = Element("a")
+              link.element.href = item["link"]
+              link.element.innerHTML = "Visita Sito"
+              link_cell.element.appendChild(link.element)
+
+      # Chiama la funzione per costruire la tabella
+      build_table()
+    </py-script>
+  </body>
+</html>
