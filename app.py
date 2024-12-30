@@ -1,4 +1,4 @@
-from pyodide import create_proxy
+
 from js import document
 
 # Template HTML con placeholder
@@ -57,4 +57,4 @@ def render_content():
     content_div.innerHTML = rendered_html
 
 # Collega la funzione al caricamento della pagina
-document.addEventListener("DOMContentLoaded", create_proxy(render_content))
+document.addEventListener("DOMContentLoaded", render_content())
