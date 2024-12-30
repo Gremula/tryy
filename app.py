@@ -2,6 +2,28 @@ from pyodide import create_proxy
 from js import document
 
 # Template HTML con placeholder
+def render_template(template, **context):
+    """
+    Simula un motore di template semplice.
+    :param template: Template HTML come stringa con {{variabili}}
+    :param context: Variabili da passare al template
+    :return: Stringa HTML renderizzata
+    """
+    # Sostituzione delle variabili {{ ... }}
+    for key, value in context.items():
+        if isinstance(value, dict):  # Gestisce i dizionari per liste dinamiche
+            list_items = "".join(
+                f"<li>{k}: {v}</li>" for k, v in value.items()
+            )
+            template = template.replace(
+                "{% for key, value in data.items() %}{{ key }}: {{ value }}{% endfor %}", 
+                list_items
+            )
+        else:
+            template = template.replace(f"{{{{ {key} }}}}", str(value))
+    
+    return template
+    
 template_html = """
 <div>
     <h1>{{ title }}</h1>
